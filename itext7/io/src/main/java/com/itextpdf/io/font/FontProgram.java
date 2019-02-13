@@ -43,14 +43,16 @@
  */
 package com.itextpdf.io.font;
 
-import com.itextpdf.io.IOException;
 import com.itextpdf.io.font.constants.FontMacStyleFlags;
 import com.itextpdf.io.font.constants.FontStretches;
 import com.itextpdf.io.font.constants.FontWeights;
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.font.otf.Glyph;
-import com.itextpdf.io.util.FileUtil;
 
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +83,49 @@ public abstract class FontProgram implements Serializable {
     protected String encodingScheme = FontEncoding.FONT_SPECIFIC;
 
     protected String registry;
+
+    /**
+     *  Indic Patch: initialize Java awt font
+     **/
+    private Font javaFont;
+
+    /**
+     * Indic Patch: initialize java awt font renderer context
+     */
+    private FontRenderContext javaFontContext;
+
+    /**
+     * Indic Patch: Generate glyph vector from provided string,
+     * used java awt font renderer to generate glyph vector
+     * @param text
+     * @return
+     */
+    public GlyphVector toGlyphs(String text) {
+        return javaFont.layoutGlyphVector(javaFontContext, text.toCharArray(), 0, text.length(), 0);
+    }
+
+    /**
+     * Indic Patch: Initialize java awt font as javaFont from ttf file
+     * Also initialized java font context
+     * @param ttfFontFile
+     */
+    public void initJavaFont(String ttfFontFile){
+        InputStream is = null;
+        try {
+            is = new FileInputStream(ttfFontFile);
+            javaFont = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | java.io.IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null)
+                    is.close();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+        }
+        javaFontContext = new FontRenderContext(null, false, false);
+    }
 
     public int countOfGlyphs() {
         return Math.max(codeToGlyph.size(), unicodeToGlyph.size());
