@@ -89,10 +89,20 @@ public class TrueTypeFont extends FontProgram {
         fontNames = new FontNames();
     }
 
+    /**
+     * Indic Patch: initialize java awt font from TrueTypeFont constructor,
+     * where font path specified and font extension ends with .ttf
+     * @param path
+     * @throws java.io.IOException
+     */
     public TrueTypeFont(String path) throws java.io.IOException {
         fontParser = new OpenTypeParser(path);
         fontParser.loadTables(true);
         initializeFontProperties();
+
+        if(String.valueOf(path).endsWith(".ttf")) {
+            initJavaFont(path);
+        }
     }
 
     public TrueTypeFont(byte[] ttf) throws java.io.IOException {
