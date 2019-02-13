@@ -74,6 +74,7 @@ import com.itextpdf.kernel.pdf.PdfVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.font.GlyphVector;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -343,6 +344,11 @@ public class PdfType0Font extends PdfFont {
         StreamUtil.writeHexedString(stream, convertToBytes(text));
     }
 
+    /**
+     * Indic Patch: Modified glyph line creation to fix indic font problem
+     * @param content
+     * @return
+     */
     @Override
     public GlyphLine createGlyphLine(String content) {
         List<Glyph> glyphs = new ArrayList<>();
@@ -379,16 +385,25 @@ public class PdfType0Font extends PdfFont {
                     }
                 }
             } else {
-                for (int k = 0; k < len; ++k) {
-                    int val;
-                    if (TextUtil.isSurrogatePair(content, k)) {
-                        val = TextUtil.convertToUtf32(content, k);
-                        k++;
-                    } else {
-                        val = content.charAt(k);
+                /**
+                 * Indic Patch: modified code to get glyphs from java awt font instead of
+                 * using itext default glyph list generation process
+                 * */
+                GlyphVector vector = this.fontProgram.toGlyphs(content);
+                int[] glyphCodes = vector.getGlyphCodes(0, vector.getNumGlyphs(), null);
+                for (int k = 0; k < glyphCodes.length; k++) {
+                    int val = glyphCodes[k];
+                    if (val == 65535) {
+                        continue;
                     }
-                    glyphs.add(getGlyph(val));
+
+                    int charIndex = vector.getGlyphCharIndex(k);
+                    int unicodeChar = content.charAt(charIndex);
+                    int glyphCode = vector.getGlyphCode(k);
+                    int glyphWidth= vector.getGlyphOutline(k).getBounds().width;
+                    glyphs.add(new Glyph(glyphCode, glyphWidth, unicodeChar));
                 }
+                /* End Indic Patch */
             }
         } else {
             throw new PdfException("Font has no suitable cmap.");
