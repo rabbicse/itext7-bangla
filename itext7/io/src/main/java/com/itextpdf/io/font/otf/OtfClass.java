@@ -84,9 +84,11 @@ public class OtfClass implements Serializable {
                     mapClass.put(glyphStart, cl);
                 }
             }
-        } else {
-            throw new java.io.IOException("Invalid class format " + classFormat);
         }
+
+//        else {
+//            throw new java.io.IOException("Invalid class format " + classFormat);
+//        }
     }
 
     public static OtfClass create(RandomAccessFileOrArray rf, int classLocation) {
