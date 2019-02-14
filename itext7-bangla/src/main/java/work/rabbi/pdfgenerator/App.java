@@ -9,6 +9,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Hello world!
@@ -49,17 +50,16 @@ public class App
         //Add paragraph to the document
         document.add(para1);
 
-
         // start of bangla test operation
         // bangla font path
-        String banglaFontPath = "/home/mehmet/IdeaProjects/ITextCDemo/fonts/Bangla.ttf";
+        String banglaFontPath = getClass().getClassLoader().getResource("fonts/Bangla.ttf").getPath(); //"/home/mehmet/IdeaProjects/ITextCDemo/fonts/Bangla.ttf";
 
         // bangla font
         PdfFont banglaFont = PdfFontFactory.createFont(banglaFontPath, PdfEncodings.IDENTITY_H, true, true);
 
         // start of bangla test operation
         // bangla font path
-        String banglaFontPath1 = "/home/mehmet/IdeaProjects/ITextCDemo/fonts/SolaimanLipi_20-04-07.ttf";
+        String banglaFontPath1 =  getClass().getClassLoader().getResource("fonts/SolaimanLipi_20-04-07.ttf").getPath();//"/home/mehmet/IdeaProjects/ITextCDemo/fonts/SolaimanLipi_20-04-07.ttf";
 
         // bangla font
         PdfFont banglaFont1 = PdfFontFactory.createFont(banglaFontPath1, PdfEncodings.IDENTITY_H, true, true);
