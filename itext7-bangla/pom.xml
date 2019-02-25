@@ -8,22 +8,18 @@
   <artifactId>itext7-bangla</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <!--<modules>-->
-    <!--<module>../itext7</module>-->
-    <!--<module>../itext7/barcodes</module>-->
-    <!--<module>../itext7/font-asian</module>-->
-    <!--<module>../itext7/forms</module>-->
-    <!--<module>../itext7/hyph</module>-->
-    <!--<module>../itext7/io</module>-->
-    <!--<module>../itext7/itextcore</module>-->
-    <!--<module>../itext7/kernel</module>-->
-    <!--<module>../itext7/layout</module>-->
-    <!--<module>../itext7/pdfa</module>-->
-    <!--<module>../itext7/pdftest</module>-->
-    <!--<module>../itext7/sign</module>-->
-    <!--<module>../itext7/styled-xml-parser</module>-->
-    <!--<module>../itext7/svg</module>-->
-  <!--</modules>-->
+  <modules>
+    <module>../itext7/barcodes</module>
+    <module>../itext7/font-asian</module>
+    <module>../itext7/forms</module>
+    <module>../itext7/hyph</module>
+    <module>../itext7/io</module>
+    <module>../itext7/itextcore</module>
+    <module>../itext7/kernel</module>
+    <module>../itext7/layout</module>
+    <module>../itext7/sign</module>
+    <module>../itext7/svg</module>
+  </modules>
 
   <name>itext7-bangla</name>
   <!-- FIXME change it to the project's website -->
