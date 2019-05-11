@@ -17,7 +17,8 @@ import java.util.Objects;
  */
 public class App {
     private static final String BANGLA_TEXT = "\u09AA\u09CD\u09B0\u09B8\u09BE\u09B0  \u09AE\u09A6\u09CD\u09AF\u09AA\u09BE\u09A8  \u0986\u09AE\u09BF \u0995\u09CB\u09A8 \u09AA\u09A5\u09C7 \u0995\u09CD\u09B7\u09C0\u09B0\u09C7\u09B0 \u09B2\u0995\u09CD\u09B7\u09CD\u09AE\u09C0 \u09B7\u09A8\u09CD\u09A1 \u09AA\u09C1\u09A4\u09C1\u09B2 \u09B0\u09C1\u09AA\u09CB \u0997\u0999\u09CD\u0997\u09BE \u098B\u09B7\u09BF";
-    private static final String BANGLA_TTF_PATH = "fonts/Bangla.ttf";
+    private static final String BANGLA_TTF_PATH = "/home/mehmet/IdeaProjects/itext7-bangla/itext7-bangla/resources/fonts/Bangla.ttf";
+    private static final String SOLAIMANLIPI_TTF_PATH = "/home/mehmet/IdeaProjects/itext7-bangla/itext7-bangla/resources/fonts/SolaimanLipi_20-04-07.ttf";
 
     public static void main(String[] args) {
 
@@ -31,8 +32,7 @@ public class App {
         }
     }
 
-    public void createPdf(String pdfPath) throws IOException {
-
+    private void createPdf(String pdfPath) throws IOException {
         long startTime = System.currentTimeMillis();
 
         //Initialize PDF writer
@@ -48,17 +48,17 @@ public class App {
         document.add(createHeader("Font: Bangla.ttf"));
 
         // Add bangla text to the body
-        document.add(createBody(BANGLA_TEXT, createItextFont(getResourceFontPath(BANGLA_TTF_PATH))));
+        document.add(createBody(BANGLA_TEXT, createItextFont(BANGLA_TTF_PATH)));
 
         // bangla font
 //        PdfFont banglaFont =  createItextFont(getResourceFontPath(BANGLA_TTF_PATH)); //PdfFontFactory.createFont(getResourceFontPath("fonts/Bangla.ttf"), PdfEncodings.IDENTITY_H, true, true);
 
         // start of bangla test operation
         // bangla font path
-        String banglaFontPath1 = Objects.requireNonNull(getClass().getClassLoader().getResource("fonts/SolaimanLipi_20-04-07.ttf")).getPath();//"/home/mehmet/IdeaProjects/ITextCDemo/fonts/SolaimanLipi_20-04-07.ttf";
+//        String banglaFontPath1 = Objects.requireNonNull(getClass().getClassLoader().getResource("fonts/SolaimanLipi_20-04-07.ttf")).getPath();//"/home/mehmet/IdeaProjects/ITextCDemo/fonts/SolaimanLipi_20-04-07.ttf";
 
         // bangla font
-        PdfFont banglaFont1 = PdfFontFactory.createFont(banglaFontPath1, PdfEncodings.IDENTITY_H, true, true);
+        PdfFont banglaFont1 = PdfFontFactory.createFont(SOLAIMANLIPI_TTF_PATH, PdfEncodings.IDENTITY_H, true, true);
 
 
         // add bangla BANGLA_TEXT
@@ -101,9 +101,9 @@ public class App {
         return new Paragraph(text).setFont(font);
     }
 
-    private String getResourceFontPath(String path){
-        return Objects.requireNonNull(getClass().getClassLoader().getResource(path)).getPath();
-    }
+//    private String getResourceFontPath(String path){
+//        return Objects.requireNonNull(getClass().getClassLoader().getResource(path)).getPath();
+//    }
 
     private PdfFont createItextFont(String fontPath) throws IOException {
         return PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, true, true);
