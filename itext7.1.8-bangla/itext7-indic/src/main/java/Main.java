@@ -14,6 +14,8 @@ public class Main {
     private static final String BANGLA_TEXT = "\u09AA\u09CD\u09B0\u09B8\u09BE\u09B0  \u09AE\u09A6\u09CD\u09AF\u09AA\u09BE\u09A8  \u0986\u09AE\u09BF \u0995\u09CB\u09A8 \u09AA\u09A5\u09C7 \u0995\u09CD\u09B7\u09C0\u09B0\u09C7\u09B0 \u09B2\u0995\u09CD\u09B7\u09CD\u09AE\u09C0 \u09B7\u09A8\u09CD\u09A1 \u09AA\u09C1\u09A4\u09C1\u09B2 \u09B0\u09C1\u09AA\u09CB \u0997\u0999\u09CD\u0997\u09BE \u098B\u09B7\u09BF";
     private static final String BANGLA_TTF_PATH = "fonts/Bangla.ttf";
     private static final String SOLAIMANLIPI_TTF_PATH = "fonts/SolaimanLipi_20-04-07.ttf";
+    private static final String KALPURUSH_TTF_PATH = "fonts/kalpurush.ttf";
+    private static final String SIYAMRUPALI_TTF_PATH = "fonts/Siyamrupali.ttf";
 
     public static void main(String[] args) {
 
@@ -42,40 +44,28 @@ public class Main {
         //Add paragraph to the document
         document.add(createHeader("Font: Bangla.ttf"));
 
-        // Add bangla text to the body
-//        document.add(createBody(BANGLA_TEXT, createItextFont(BANGLA_TTF_PATH)));
+        // Add bangla text with Bangla.ttf
+        document.add(createBody(BANGLA_TEXT, createItextFont(getResourceFontPath(BANGLA_TTF_PATH))));
 
-        // bangla font
-        PdfFont banglaFont = createItextFont(getResourceFontPath(BANGLA_TTF_PATH)); //PdfFontFactory.createFont(getResourceFontPath("fonts/Bangla.ttf"), PdfEncodings.IDENTITY_H, true, true);
-        PdfFont banglaFont1 = createItextFont(getResourceFontPath(SOLAIMANLIPI_TTF_PATH));
+        //Add paragraph to the document
+        document.add(createHeader("Font: SolaimanLipi_20-04-07.ttf"));
 
-        // start of bangla test operation
-        // bangla font path
-//        String banglaFontPath1 = Objects.requireNonNull(getClass().getClassLoader().getResource("fonts/SolaimanLipi_20-04-07.ttf")).getPath();//"/home/mehmet/IdeaProjects/ITextCDemo/fonts/SolaimanLipi_20-04-07.ttf";
-
-        // bangla font
-//        PdfFont banglaFont1 = PdfFontFactory.createFont(SOLAIMANLIPI_TTF_PATH, PdfEncodings.IDENTITY_H, true, true);
+        // Add bangla text with Bangla.ttf
+        document.add(createBody(BANGLA_TEXT, createItextFont(getResourceFontPath(SOLAIMANLIPI_TTF_PATH))));
 
 
-        // add bangla BANGLA_TEXT
-        Paragraph banglaPara = new Paragraph(BANGLA_TEXT);
+        //Add paragraph to the document
+        document.add(createHeader("Font: kalpurush.ttf"));
 
-        // set bangla font to paragraph
-        banglaPara.setFont(banglaFont);
+        // Add bangla text with Bangla.ttf
+        document.add(createBody(BANGLA_TEXT, createItextFont(getResourceFontPath(KALPURUSH_TTF_PATH))));
 
-        // add bangla BANGLA_TEXT
-        Paragraph banglaPara1 = new Paragraph(BANGLA_TEXT);
 
-        // set bangla font to paragraph
-        banglaPara1.setFont(banglaFont1);
-
-        // add bangla paragraph to document
-        document.add(banglaPara);
-
-        // add bangla paragraph to document
-        document.add(banglaPara1);
-        // end bangla operation
-
+//        //Add paragraph to the document
+//        document.add(createHeader("Font: Siyamrupali.ttf"));
+//
+//        // Add bangla text with Bangla.ttf
+//        document.add(createBody(BANGLA_TEXT, createItextFont(getResourceFontPath(SIYAMRUPALI_TTF_PATH), false)));
 
         //Close document
         document.close();
@@ -102,6 +92,9 @@ public class Main {
     }
 
     private PdfFont createItextFont(String fontPath) throws IOException {
-        return PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, true, true);
+        return createItextFont(fontPath, true);
+    }
+    private PdfFont createItextFont(String fontPath, boolean embedded) throws IOException {
+        return PdfFontFactory.createFont(fontPath, PdfEncodings.IDENTITY_H, embedded, true);
     }
 }
